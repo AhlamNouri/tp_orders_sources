@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import itemRoutes from "./routes/item.routes";
+import orderRoutes from "./routes/order.routes";
 
 const hostname = "127.0.0.1";
-const port = 5000;
+const port = 5005;
 
 dotenv.config();
 
@@ -19,13 +21,11 @@ db.once("open", function () {
 });
 
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello !");
-});
+app.use("/items", itemRoutes);
+app.use("/orders", orderRoutes);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
